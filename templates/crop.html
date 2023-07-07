@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Crop Image</title>
+    <style>
+        #image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #image-preview {
+            max-width: 500px;
+        }
+
+        #crop-preview {
+            position: absolute;
+            border: 2px dashed red;
+        }
+
+        #crop-form {
+            margin-top: 20px;
+        }
+
+        #crop-button {
+            padding: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let imagePreview = $('#image-preview');
+            let cropPreview = $('#crop-preview');
+            let cropForm = $('#crop-form');
+
+            imagePreview.on('load', function () {
+                cropPreview.css('width', '0px');
+                cropPreview.css('height', '0px');
+            });
+
+            imagePreview.on('mousemove', function (event) {
+                let offsetX = imagePreview.offset().left;
+                let offsetY = imagePreview.offset().top;
+                let mouseX = event.pageX - offsetX;
+                let mouseY = event.pageY - offsetY;
+
+                cropPreview.css('left', mouseX + 'px');
+                cropPreview.css('top', mouseY + 'px');
+            });
+
+            cropForm.submit(function (event) {
+                event.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: '/crop',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        window.location.href = '/result';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Crop Image</h1>
+    <div id="image-container">
+        <img id="image-preview" src="/static/uploaded_image.jpg" alt="Uploaded Image">
+        <div id="crop-preview"></div>
+    </div>
+    <form id="crop-form" method="POST">
+        <label for="x">X:</label>
+        <input type="number" name="x" required>
+        <br><br>
+        <label for="y">Y:</label>
+        <input type="number" name="y" required>
+        <br><br>
+        <label for="width">Width:</label>
+        <input type="number" name="width" required>
+        <br><br>
+        <label for="height">Height:</label>
+        <input type="number" name="height" required>
+        <br><br>
+        <input id="crop-button" type="submit" value="Crop">
+    </form>
+</body>
+
+</html>

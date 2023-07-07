@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body style="background-color: rgb(78, 170, 142)">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center">
+      <h1 style="margin: 0">UAS Komputer Grafik</h1>
+      <h3 style="margin: 0">Muhammad Zidan Mumtaz</h3>
+      <h3 style="margin: 0">201011400114</h3>
+      <h3 style="margin: 0">06TPLE006</h3>
+    </div>
+    <h1>Upload an Image</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <br><br>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
